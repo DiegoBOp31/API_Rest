@@ -4,6 +4,7 @@ import med.voll.api.medico.DatosRegistroMedico;
 import med.voll.api.medico.Medico;
 import med.voll.api.medico.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,9 @@ public class MedicoController {
 
     @Autowired
     private MedicoRepository repository;
+
+    //Transactional lo usamos porque vamos a estar registrando datos en una base de datos
+    @Transactional//Estamos usando el transactional de spring boot
     //Maneja peticiones HTTP POST para registrar un nuevo recurso (por ejemplo, un médico)
     @PostMapping
     //RequestBody Indica que los datos del cuerpo de la petición HTTP se deben mapear a este objeto Java
