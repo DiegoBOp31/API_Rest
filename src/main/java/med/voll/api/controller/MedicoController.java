@@ -1,5 +1,6 @@
 package med.voll.api.controller;
 
+import jakarta.validation.Valid;
 import med.voll.api.medico.DatosRegistroMedico;
 import med.voll.api.medico.Medico;
 import med.voll.api.medico.MedicoRepository;
@@ -27,7 +28,7 @@ public class MedicoController {
     //Maneja peticiones HTTP POST para registrar un nuevo recurso (por ejemplo, un médico)
     @PostMapping
     //RequestBody Indica que los datos del cuerpo de la petición HTTP se deben mapear a este objeto Java
-    public void registrar(@RequestBody DatosRegistroMedico datos){
+    public void registrar(@RequestBody @Valid DatosRegistroMedico datos){
         repository.save(new Medico(datos));
     }
 }

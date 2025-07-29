@@ -24,7 +24,7 @@ public class Direccion {
         this.numero = datosDireccion.numero();
         this.complemento = datosDireccion.complemento();
         this.barrio = datosDireccion.barrio();
-        this.ciudad = datosDireccion.barrio();
+        this.ciudad = datosDireccion.ciudad();
         this.codigo_postal = datosDireccion.codigo_postal();
         this.estado = datosDireccion.estado();
     }
