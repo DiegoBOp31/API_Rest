@@ -111,7 +111,18 @@ public class MedicoController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}")
+    //El ResponseEntity es una clase que nos devuelve diferentes códigos http
+    public ResponseEntity detallar(@PathVariable Long id){
+        var medico = repository.getReferenceById(id);
 
+        /**
+         * Devuelve una respuesta HTTP con el código 204 No Content.
+         * Esto indica que la solicitud fue exitosa, pero no hay datos en el cuerpo de la respuesta.
+         * Es útil, por ejemplo, cuando se elimina un recurso correctamente y no se necesita devolver nada.
+         */
+        return ResponseEntity.ok(new DatosDetalleMedico(medico));
+    }
 
 
 }
