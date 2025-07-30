@@ -1,6 +1,7 @@
 package med.voll.api.medico;
 
 public record DatosListaMedico(
+        Long id,
         String nombre,
         String email,
         String documento,
@@ -14,6 +15,7 @@ public record DatosListaMedico(
          *y usarlo con expresiones como .map(DatosListaMedico::new) en streams.
          */
         this(
+                medico.getId(),
                 medico.getNombre(),
                 medico.getEmail(),
                 medico.getDocumento(),

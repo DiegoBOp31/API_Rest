@@ -1,10 +1,12 @@
 package med.voll.api.medico;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import med.voll.api.controllermedico.DatosActualizacionMedico;
 import med.voll.api.direccion.Direccion;
 
 @Getter//Crea todos los getters en tiempo de compilación
@@ -35,5 +37,17 @@ public class Medico {
         this.documento = datos.documento();
         this.especialidad = datos.especialidad();
         this.direccion = new Direccion(datos.direccion());
+    }
+
+    public void actualizarInformaciones(@Valid DatosActualizacionMedico datos) {
+        if(datos.nombre() != null){
+            this.nombre = datos.nombre();
+        }
+        if(datos.telefono() != null){
+            this.telefono = datos.telefono();
+        }
+        if(datos.direccion() != null){
+            this.direccion.actualizarDireccion(datos.direccion());
+        }
     }
 }
