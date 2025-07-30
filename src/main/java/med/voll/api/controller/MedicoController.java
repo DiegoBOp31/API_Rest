@@ -56,7 +56,7 @@ public class MedicoController {
          * Esto se hace para no devolver directamente los objetos "Medico", sino solo los datos necesarios
          * en una forma más segura y ordenada.
          */
-        return repository.findAll(paginacion).map(DatosListaMedico::new);
+        return repository.findAllByActivoTrue(paginacion).map(DatosListaMedico::new);
     }
 
     @Transactional
@@ -69,7 +69,8 @@ public class MedicoController {
     @Transactional
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id){
-        repository.deleteById(id);
+        var medico = repository.getReferenceById(id);
+        medico.eliminar();
     }
 
 
