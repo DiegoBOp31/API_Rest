@@ -10,6 +10,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -30,8 +31,33 @@ public class MedicoController {
     //Maneja peticiones HTTP POST para registrar un nuevo recurso (por ejemplo, un médico)
     @PostMapping
     //RequestBody Indica que los datos del cuerpo de la petición HTTP se deben mapear a este objeto Java
-    public void registrar(@RequestBody @Valid DatosRegistroMedico datos){
-        repository.save(new Medico(datos));
+    public ResponseEntity registrar(@RequestBody @Valid DatosRegistroMedico datos, UriComponentsBuilder uriComponentsBuilder){
+        /**
+         * Este método maneja la creación (registro) de un nuevo médico desde una solicitud HTTP POST.
+         * Devuelve un ResponseEntity con el estado 201 Created, la URI del nuevo recurso y los datos del médico creado.
+         */
+        var medico = new Medico(datos); // Crea un nuevo objeto Medico usando los datos recibidos en el request.
+        repository.save(medico); // Guarda el nuevo médico en la base de datos.
+        /**
+         * Se construye la URI del recurso recién creado para enviarla en la respuesta.
+         * Esto es parte del estándar REST, que recomienda que cuando creas un recurso nuevo, devuelvas la ubicación donde se puede acceder.
+         * uriComponentsBuilder permite construir rutas dinámicamente a partir de una plantilla, en este caso "/medicos/{id}".
+         * buildAndExpand(medico.getId()) reemplaza {id} por el ID real del médico que acabamos de guardar.
+         * toUri() convierte esa ruta en un objeto URI válido que se puede usar en la respuesta.
+         */
+        var uri = uriComponentsBuilder.path("/medicos/{id}")// Plantilla de la ruta para el nuevo recurso
+                .buildAndExpand(medico.getId())// Reemplaza {id} por el ID real del médico
+                .toUri();// Convierte la ruta en un objeto URI
+        /**
+         * Finalmente, construimos y devolvemos un ResponseEntity con:
+         * - Código HTTP 201 (Created), que indica que un nuevo recurso fue creado exitosamente.
+         * - La URI del nuevo recurso (para que el cliente sepa dónde encontrarlo).
+         * - El cuerpo de la respuesta contiene un DTO con los detalles del médico creado
+         * (para mostrar al cliente la información del recurso).
+         */
+        return ResponseEntity
+                .created(uri)// Establece el código HTTP 201 Created y la cabecera "Location" con la URI del nuevo recurso
+                .body(new DatosDetalleMedico(medico));// En el cuerpo se devuelven los datos del médico en un formato adecuado para el cliente
     }
 
     @GetMapping
