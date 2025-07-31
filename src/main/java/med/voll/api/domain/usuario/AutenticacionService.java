@@ -27,7 +27,10 @@ public class AutenticacionService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
+        /**
+         * El médoto iniciarSesion de AutenticacionController llama a este método para encontrar
+         * a un usuario por su login
+         */
         /**
          * Se busca en la base de datos un usuario cuyo login coincida con el username proporcionado.
          * Este método debe devolver un objeto que implemente la interfaz UserDetails,
