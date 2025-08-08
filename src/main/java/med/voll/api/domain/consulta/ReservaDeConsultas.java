@@ -5,6 +5,7 @@ import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.paciente.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,12 +38,13 @@ public class ReservaDeConsultas {
     }
 
     private Medico elegirMedico(DatosReservaConsulta datos) {
-        if(datos.idMedico()!=null){
+        if(datos.idMedico() != null){
             return medicoRepository.getReferenceById(datos.idMedico());
         }
-        if(datos.especialidad()==null){
-            throw new ValidacionException("Es necesario elegir una especialidad cuando no se elije un médico");
+        if(datos.especialidad() == null){
+            throw new ValidacionException("Es necesario elegir una especialidad cuando no se elige un médico");
         }
-        return medicoRepository.elegirMedicoDisponibleEnLaFecha(datos.especialidad(), datos.fecha());
+
+        return medicoRepository.elegirMedicoAleatorioDisponibleEnLaFecha(datos.especialidad(), datos.fecha());
     }
 }
