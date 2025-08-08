@@ -1,12 +1,15 @@
 package med.voll.api.domain.consulta;
 
 import med.voll.api.domain.ValidacionException;
+import med.voll.api.domain.consulta.validaciones.ValidadorDeConsultas;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.paciente.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ReservaDeConsultas {
@@ -20,6 +23,16 @@ public class ReservaDeConsultas {
     @Autowired
     private ConsultaRepository consultaRepository;
 
+    @Autowired
+    /**
+     * Declaramos una variable privada llamada validadores que es una lista de objetos que implementan
+     * la interfaz ValidadorDeConsultas.
+     * Spring busca todos los beans que implementen ValidadorDeConsultas
+     * Luego crea una lista con todos esos beans encontrados.
+     * Esa lista se inyecta en esta variable validadores.
+     */
+    private List<ValidadorDeConsultas> validadores;
+
     public void reservar(DatosReservaConsulta datos){
 
         if(!pacienteRepository.existsById(datos.idPaciente())){
@@ -28,6 +41,10 @@ public class ReservaDeConsultas {
         if(datos.idMedico() != null && !medicoRepository.existsById(datos.idMedico())){
             throw new ValidacionException("No existe un médico con el id informado");
         }
+
+        //Validaciones
+        //Usamos todas las validaciones al mismo tiempo con nuestra variable validadores
+        validadores.forEach(v->v.validar(datos));
 
         var medico = elegirMedico(datos);
         var paciente = pacienteRepository.findById(datos.idPaciente()).get();

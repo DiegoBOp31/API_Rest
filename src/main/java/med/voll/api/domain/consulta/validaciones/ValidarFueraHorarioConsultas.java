@@ -2,10 +2,12 @@ package med.voll.api.domain.consulta.validaciones;
 
 import med.voll.api.domain.ValidacionException;
 import med.voll.api.domain.consulta.DatosReservaConsulta;
+import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 
-public class ValidacionFueraHorarioConsultas {
+@Component
+public class ValidarFueraHorarioConsultas implements ValidadorDeConsultas{
 
     public void validar(DatosReservaConsulta datos){
         // Obtener la fecha y hora de la cita desde los datos de la reserva
