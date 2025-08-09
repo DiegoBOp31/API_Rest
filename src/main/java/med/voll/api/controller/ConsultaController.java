@@ -22,9 +22,10 @@ public class ConsultaController {
     @PostMapping
     @Transactional
     public ResponseEntity reservar(@RequestBody @Valid DatosReservaConsulta datos){
-        reserva.reservar(datos);
-        System.out.println(datos);
-        return ResponseEntity.ok(new DatosDetalleConsulta(null,null,null,null));
+
+        var detalleConsulta = reserva.reservar(datos);
+
+        return ResponseEntity.ok(detalleConsulta);
     }
 
 
