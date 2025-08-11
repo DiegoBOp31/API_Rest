@@ -49,7 +49,17 @@ public class SecurityConfigurations {
                      * Permite el acceso sin autenticación al endpoint POST "/login".
                      * Esto es necesario para que los usuarios puedan enviar sus credenciales y obtener un token JWT.
                      */
-                    req.requestMatchers(HttpMethod.POST,"/login").permitAll();
+                    req.requestMatchers(HttpMethod.POST,"/login").permitAll()
+                            /**
+                             * Permite el acceso público (sin autenticación) a las rutas relacionadas con la
+                             * documentación de la API generada por Swagger/OpenAPI:
+                             * // - "/v3/api-docs/**" → Documentación en formato JSON de OpenAPI.
+                             * // - "/swagger-ui.html" → Página principal de Swagger UI.
+                             * // - "/swagger-ui/**" → Archivos y recursos internos que usa Swagger UI.
+                             * // Esto asegura que la documentación de la API sea accesible incluso si el resto de la
+                             * aplicación requiere autenticación.
+                             */
+                            .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
                     /**
                      * Requiere autenticación para cualquier otra solicitud (GET, POST, PUT, DELETE, etc. en otros endpoints).
                      * Es decir, todas las rutas excepto "/login" estarán protegidas y necesitan un token válido.

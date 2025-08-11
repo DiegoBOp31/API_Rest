@@ -1,5 +1,6 @@
 package med.voll.api.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import med.voll.api.domain.consulta.DatosDetalleConsulta;
 import med.voll.api.domain.consulta.DatosReservaConsulta;
@@ -14,6 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("consultas")
+/**
+ * Esta anotación la usamos en todos los métodos de nuestra aplicación que necesiten hacer el login
+ * (también es parte de la configuración de la dependencia de documentación)
+ */
+@SecurityRequirement(name = "bearer-key")
 public class ConsultaController {
 
     @Autowired
