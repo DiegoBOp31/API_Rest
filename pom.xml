@@ -103,6 +103,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+<!--La última versión lts no me funcionó y no supe por qué pero por eso puse esta-->
             <version>2.5.0</version>
         </dependency>
 
